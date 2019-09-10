@@ -11,6 +11,8 @@ type
   protected
     function GetBackGroundColor: TColor; override;
     function GetBackGroundType: TBackGroundType; override;
+    function GetCanPassBySea: Boolean; override;
+    function GetCanPassByLand: Boolean; override;
   end;
 
 implementation
@@ -25,6 +27,16 @@ end;
 function TBGT_Town.GetBackGroundType: TBackGroundType;
 begin
   Result := BGT_Town;
+end;
+
+function TBGT_Town.GetCanPassByLand: Boolean;
+begin
+  Result := True;
+end;
+
+function TBGT_Town.GetCanPassBySea: Boolean;
+begin
+  Result := True;
 end;
 
 end.

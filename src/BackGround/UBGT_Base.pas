@@ -13,15 +13,20 @@ type
     FIcon: TBitmap;
   private
     procedure DrawIcon;
+
   protected
     function GetBackGroundType: TBackGroundType; virtual; abstract;
     function GetBackGroundColor: TColor; virtual; abstract;
+    function GetCanPassBySea: Boolean; virtual; abstract;
+    function GetCanPassByLand: Boolean; virtual; abstract;
   public
     constructor Create;
     destructor Destroy; override;
   public
     property Icon: TBitmap read FIcon;
     property BGType: TBackGroundType read GetBackGroundType;
+    property CanPassBySea: Boolean read GetCanPassBySea;
+    property CanPassByLand: Boolean read GetCanPassByLand;
   end;
 
 implementation

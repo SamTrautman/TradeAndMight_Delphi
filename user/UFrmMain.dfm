@@ -10,8 +10,11 @@ object FrmMain: TFrmMain
   Font.Height = -11
   Font.Name = 'Tahoma'
   Font.Style = []
+  KeyPreview = True
   OldCreateOrder = False
   OnCreate = FormCreate
+  OnKeyDown = FormKeyDown
+  OnKeyUp = FormKeyUp
   PixelsPerInch = 96
   TextHeight = 13
   object ImgWorld: TImage
@@ -46,7 +49,7 @@ object FrmMain: TFrmMain
       Top = 1
       Width = 183
       Height = 489
-      ActivePage = tsEditMap
+      ActivePage = TabSheet1
       Align = alClient
       TabOrder = 0
       object tsNewWorld: TTabSheet
@@ -117,6 +120,22 @@ object FrmMain: TFrmMain
             'Land'
             'Mountains'
             'Town')
+          TabOrder = 0
+        end
+      end
+      object TabSheet1: TTabSheet
+        Caption = 'tsMove'
+        ImageIndex = 2
+        object rgMove: TRadioGroup
+          Left = 3
+          Top = 16
+          Width = 158
+          Height = 65
+          Caption = 'Move'
+          ItemIndex = 0
+          Items.Strings = (
+            'Wagon'
+            'Ship')
           TabOrder = 0
         end
       end

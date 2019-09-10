@@ -5,7 +5,7 @@ interface
 uses
   System.Generics.Collections,
   Vcl.Graphics,
-  USprite, UBGT_Base;
+  UGlobal, USprite, UBGT_Base;
 
 type
   TWorldMapTile = class
@@ -25,14 +25,17 @@ type
     FSizeX: Integer;
     FSizeY: Integer;
     FWorldMapTiles: TArray<TWorldMapTiles>;
+    FSprites: TList<TSprite>;
   private
     procedure ReDrawMap;
     procedure ReDrawField(X, Y: Integer);
+    procedure ReDrawSprite(p_Sprite: TSprite);
   public
     procedure CreateNewWorld(ASizeX, ASizeY: Integer);
     procedure SaveToFile(AFileName: String);
     procedure LoadFromFile(AFileName: String);
     procedure CreateBackGroundTile(PosX, PosY, ABGType: Integer);
+    procedure MoveSprite(p_Sprite: Integer; p_Direction: TDirection);
   public
     constructor Create;
     destructor Destroy; override;
@@ -43,9 +46,8 @@ type
 implementation
 
 uses
-  System.JSON, System.Classes, System.SysUtils,
-  UBackGroundFactory,
-  UGlobal;
+  System.JSON, System.Classes, System.SysUtils, System.Math,
+  UBackGroundFactory;
 
 { TWorldMap }
 
@@ -71,6 +73,9 @@ begin
   FSizeX := ASizeX;
   FSizeY := ASizeY;
 
+  FSprites.Add(TLandTraderSprite.Create(0, 0));
+  FSprites.Add(TSeaTraderSprite.Create(0, 0));
+
   FWorldMap.SetSize(FSizeX * SPRITE_SIZE, FSizeY * SPRITE_SIZE);
 
   SetLength(FWorldMapTiles, FSizeY);
@@ -92,6 +97,7 @@ destructor TWorldMap.Destroy;
 var
   l_WorldMapTiles: TWorldMapTiles;
   l_WorldMapTile: TWorldMapTile;
+  l_Sprite: TSprite;
 begin
   FWorldMap.Free;
 
@@ -101,6 +107,11 @@ begin
     begin
       l_WorldMapTile.Free;
     end;
+  end;
+
+  for l_Sprite in FSprites do
+  begin
+    l_Sprite.Free;
   end;
 
   inherited;
@@ -119,6 +130,9 @@ var
   Y: Integer;
   X: Integer;
 begin
+  FSprites.Add(TLandTraderSprite.Create(0, 0));
+  FSprites.Add(TSeaTraderSprite.Create(0, 0));
+
   l_ImportJSON := TJSONObject.Create;
   try
     l_ImportStream := TStringStream.Create;
@@ -157,6 +171,20 @@ begin
   ReDrawMap;
 end;
 
+procedure TWorldMap.MoveSprite(p_Sprite: Integer; p_Direction: TDirection);
+begin
+  if p_Direction = DIR_LEFT then
+    FSprites[p_Sprite].PosX := Max(FSprites[p_Sprite].PosX -1, 0)
+  else if p_Direction = DIR_UP then
+    FSprites[p_Sprite].PosY := Max(FSprites[p_Sprite].PosY -1, 0)
+  else if p_Direction = DIR_RIGHT then
+    FSprites[p_Sprite].PosX := Min(FSprites[p_Sprite].PosX +1, FSizeX -1)
+  else if p_Direction = DIR_DOWN then
+    FSprites[p_Sprite].PosY := Min(FSprites[p_Sprite].PosY +1, FSizeY -1);
+
+  ReDrawMap;
+end;
+
 procedure TWorldMap.ReDrawField(X, Y: Integer);
 begin
   FWorldMap.Canvas.Draw(X * SPRITE_SIZE,Y * SPRITE_SIZE,FWorldMapTiles[Y][X].FBackGroundSprite.Icon);
@@ -166,6 +194,7 @@ procedure TWorldMap.ReDrawMap;
 var
   Y: Integer;
   X: Integer;
+  l_Sprite: TSprite;
 begin
   for Y := 0 to FSizeY -1 do
   begin
@@ -174,6 +203,16 @@ begin
       ReDrawField(X, Y);
     end;
   end;
+
+  for l_Sprite in FSprites do
+  begin
+    ReDrawSprite(l_Sprite);
+  end;
+end;
+
+procedure TWorldMap.ReDrawSprite(p_Sprite: TSprite);
+begin
+  FWorldMap.Canvas.Draw(p_Sprite.PosX * SPRITE_SIZE, p_Sprite.PosY * SPRITE_SIZE, p_Sprite.Icon);
 end;
 
 procedure TWorldMap.SaveToFile(AFileName: String);
@@ -239,6 +278,7 @@ end;
 constructor TWorldMap.Create;
 begin
   FWorldMap := TBitmap.Create;
+  FSprites := TList<TSprite>.Create;
 end;
 
 { TWorldMapTile }
