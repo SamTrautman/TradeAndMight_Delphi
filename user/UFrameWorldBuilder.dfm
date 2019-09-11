@@ -27,7 +27,7 @@ object FrameWorldBuilder: TFrameWorldBuilder
     Top = 0
     Width = 209
     Height = 552
-    ActivePage = tsCreateWorld
+    ActivePage = tsTesting
     Align = alLeft
     MultiLine = True
     TabOrder = 0
@@ -135,6 +135,19 @@ object FrameWorldBuilder: TFrameWorldBuilder
           '64x64 Pixel')
         TabOrder = 0
         OnClick = rgSpriteSizeClick
+      end
+    end
+    object tsTesting: TTabSheet
+      Caption = 'Testing'
+      ImageIndex = 4
+      object btnRunTurn: TButton
+        Left = 3
+        Top = 3
+        Width = 166
+        Height = 25
+        Caption = 'Run Turn'
+        TabOrder = 0
+        OnClick = btnRunTurnClick
       end
     end
   end

@@ -26,17 +26,21 @@ type
     rgSpriteSize: TRadioGroup;
     SaveDialogMap: TSaveDialog;
     OpenDialogMap: TOpenDialog;
+    tsTesting: TTabSheet;
+    btnRunTurn: TButton;
     procedure btnCreateWorldClick(Sender: TObject);
     procedure ImgWorldMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
     procedure rgSpriteSizeClick(Sender: TObject);
     procedure btnSaveWorldClick(Sender: TObject);
     procedure btnLoadWorldClick(Sender: TObject);
+    procedure btnRunTurnClick(Sender: TObject);
   private
     FSpriteSize: Integer;
   private
     procedure DrawTerrainTile(X, Y: Integer);
     procedure DrawTown(X, Y: Integer);
+    procedure DrawSprite(X, Y: Integer);
     procedure ReRenderWorld;
   public
     constructor Create(AOwner: TComponent); override;
@@ -48,7 +52,7 @@ implementation
 
 uses
   System.JSON,
-  UWorld, UBaseTerrainTile, UTownTerrainObject, UGlobal, UFrmNewTown;
+  UWorld, UBaseTerrainTile, UBaseSprite, UTownTerrainObject, UGlobal, UFrmNewTown;
 
 procedure TFrameWorldBuilder.btnCreateWorldClick(Sender: TObject);
 begin
@@ -122,6 +126,12 @@ begin
     l_ImportJSON.Free;
   end;
 
+  ReRenderWorld;
+end;
+
+procedure TFrameWorldBuilder.btnRunTurnClick(Sender: TObject);
+begin
+  TheWorld.CalcTurn;
   ReRenderWorld;
 end;
 
@@ -213,6 +223,38 @@ begin
   FSpriteSize := 16;
 
   pcSidePanel.ActivePage := tsCreateWorld;
+end;
+
+procedure TFrameWorldBuilder.DrawSprite(X, Y: Integer);
+var
+  Points: array of TPoint;
+  l_Bitmap: TBitmap;
+begin
+  inherited;
+
+  l_Bitmap := TBitmap.Create;
+  try
+    l_Bitmap.TransparentColor := clFuchsia;
+    l_Bitmap.Transparent := True;
+    l_Bitmap.Canvas.Brush.Color := clFuchsia;
+
+    l_Bitmap.SetSize(FSpriteSize,FSpriteSize);
+
+    SetLength(Points, 3);
+
+    Points[0] := Point(0, FSpriteSize);
+    Points[1] := Point(FSpriteSize div 2, 0);
+    Points[2] := Point(FSpriteSize, FSpriteSize);
+
+    l_Bitmap.Canvas.Pen.Width := 2;
+    l_Bitmap.Canvas.Pen.Color := clRed;
+    l_Bitmap.Canvas.Brush.Color := clYellow;
+    l_Bitmap.Canvas.Polygon(Points);
+
+    ImgWorld.Canvas.Draw(X * FSpriteSize,Y * FSpriteSize, l_Bitmap);
+  finally
+    l_Bitmap.Free;
+  end;
 end;
 
 procedure TFrameWorldBuilder.DrawTerrainTile(X, Y: Integer);
@@ -311,6 +353,7 @@ var
   X: Integer;
   Y: Integer;
   l_Town: TTownTerrainObject;
+  l_Sprite: TBaseSprite;
 begin
   ImgWorld.Picture := NIL;
 
@@ -326,6 +369,10 @@ begin
   begin
     DrawTown(l_Town.PosX, l_Town.PosY);
   end;
+
+  for l_Sprite in TheWorld.Sprites do
+    DrawSprite(l_Sprite.CurrentPosX, l_Sprite.CurrentPosY);
+
 end;
 
 procedure TFrameWorldBuilder.rgSpriteSizeClick(Sender: TObject);

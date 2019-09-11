@@ -54,30 +54,7 @@ object FrmMain: TFrmMain
       Height = 591
       ExplicitHeight = 591
       inherited tsCreateWorld: TTabSheet
-        ExplicitWidth = 181
-      end
-      inherited tsEditTerrain: TTabSheet
-        ExplicitLeft = 24
-        ExplicitTop = 4
-        ExplicitWidth = 181
-        ExplicitHeight = 544
-      end
-      inherited tsEditObjects: TTabSheet
-        ExplicitLeft = 24
-        ExplicitTop = 4
-        ExplicitWidth = 181
-        ExplicitHeight = 544
-        inherited rgObjekte: TRadioGroup
-          ExplicitLeft = 0
-          ExplicitTop = 0
-          ExplicitWidth = 181
-        end
-      end
-      inherited tsView: TTabSheet
-        ExplicitLeft = 24
-        ExplicitTop = 4
-        ExplicitWidth = 181
-        ExplicitHeight = 544
+        ExplicitHeight = 583
       end
     end
   end

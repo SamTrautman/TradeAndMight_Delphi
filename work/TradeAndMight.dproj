@@ -106,15 +106,7 @@
             <Form>FrmMain</Form>
             <FormType>dfm</FormType>
         </DCCReference>
-        <DCCReference Include="..\src\UWorldMap.pas"/>
-        <DCCReference Include="..\src\USprite.pas"/>
         <DCCReference Include="..\src\UGlobal.pas"/>
-        <DCCReference Include="..\src\BackGround\UBGT_Water.pas"/>
-        <DCCReference Include="..\src\BackGround\UBGT_Land.pas"/>
-        <DCCReference Include="..\src\BackGround\UBGT_Mountains.pas"/>
-        <DCCReference Include="..\src\BackGround\UBGT_Town.pas"/>
-        <DCCReference Include="..\src\BackGround\UBGT_Base.pas"/>
-        <DCCReference Include="..\src\BackGround\UBackGroundFactory.pas"/>
         <DCCReference Include="..\src\UWorld.pas"/>
         <DCCReference Include="..\src\Terrain\UBaseTerrainTile.pas"/>
         <DCCReference Include="..\src\Terrain\UWaterTerrainTile.pas"/>
@@ -131,6 +123,8 @@
             <Form>FrmNewTown</Form>
             <FormType>dfm</FormType>
         </DCCReference>
+        <DCCReference Include="..\src\Sprite\UBaseSprite.pas"/>
+        <DCCReference Include="..\src\Sprite\USeaTrader.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>

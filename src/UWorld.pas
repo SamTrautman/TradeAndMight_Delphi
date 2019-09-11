@@ -4,7 +4,7 @@ interface
 
 uses
   System.Generics.Collections,
-  UBaseTerrainTile, UTownTerrainObject;
+  UBaseTerrainTile, UBaseSprite, UTownTerrainObject;
 
 type
   TWorld = class(TObject)
@@ -13,6 +13,7 @@ type
     FSizeY: Integer;
     FTerrainTiles: TArray<TArray<TBaseTerrainTile>>;
     FTowns: TObjectList<TTownTerrainObject>;
+    FSprites: TObjectList<TBaseSprite>;
   private
     procedure BuildTerrainArray;
     procedure DestroyOldWorld;
@@ -20,6 +21,7 @@ type
     constructor Create;
     destructor Destroy; override;
   public
+    procedure CalcTurn;
     procedure CreateNewWorld(ASizeX, ASizeY: Integer);
     procedure EditTerrain(X, Y: Integer; ATerrainType: TTerrainType);
     procedure AddTown(X, Y: Integer; ATownName: String);
@@ -29,6 +31,7 @@ type
     property SizeY: Integer read FSizeY;
     property TerrainTiles: TArray<TArray<TBaseTerrainTile>> read FTerrainTiles;
     property Towns: TObjectList<TTownTerrainObject> read FTowns;
+    property Sprites: TObjectList<TBaseSprite> read FSprites;
   end;
 
 var
@@ -37,7 +40,7 @@ var
 implementation
 
 uses
-  UWaterTerrainTile, ULandTerrainTile, UMountainTerrainTile;
+  UWaterTerrainTile, ULandTerrainTile, UMountainTerrainTile, USeaTrader;
 
 { TWorld }
 
@@ -80,10 +83,21 @@ begin
   FillTerrainArray;
 end;
 
+procedure TWorld.CalcTurn;
+var
+  l_Sprite: TBaseSprite;
+begin
+  for l_Sprite in FSprites do
+    l_Sprite.DoAction;
+end;
+
 constructor TWorld.Create;
 begin
   FTowns := TObjectList<TTownTerrainObject>.Create;
   FTowns.OwnsObjects := True;
+
+  FSprites := TObjectList<TBaseSprite>.Create;
+  FSprites.OwnsObjects := True;
 end;
 
 procedure TWorld.CreateNewWorld(ASizeX, ASizeY: Integer);
@@ -94,11 +108,17 @@ begin
   FSizeY := ASizeY;
 
   BuildTerrainArray;
+
+  //TESTING
+  FSprites.Add(TSeaTrader.Create(0,0));
+  FSprites.Add(TSeaTrader.Create(0,0));
+  FSprites.Add(TSeaTrader.Create(0,0));
 end;
 
 destructor TWorld.Destroy;
 begin
   FTowns.Free;
+  FSprites.Free;
   inherited;
 end;
 
@@ -107,6 +127,7 @@ var
   X: Integer;
   Y: Integer;
   l_Town: TTownTerrainObject;
+  l_Sprite: TBaseSprite;
 begin
   for X := 0 to FSizeX - 1 do
   begin
@@ -116,6 +137,9 @@ begin
 
   for l_Town in FTowns do
     FTowns.Remove(l_Town);
+
+  for l_Sprite in FSprites do
+    FSprites.Remove(l_Sprite);
 end;
 
 procedure TWorld.EditTerrain(X, Y: Integer; ATerrainType: TTerrainType);
