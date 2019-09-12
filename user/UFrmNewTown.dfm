@@ -2,7 +2,7 @@ object FrmNewTown: TFrmNewTown
   Left = 0
   Top = 0
   Caption = 'New Town'
-  ClientHeight = 82
+  ClientHeight = 179
   ClientWidth = 203
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -25,7 +25,7 @@ object FrmNewTown: TFrmNewTown
   end
   object btnBack: TButton
     Left = 16
-    Top = 51
+    Top = 139
     Width = 75
     Height = 25
     Caption = 'Abbrechen'
@@ -34,11 +34,33 @@ object FrmNewTown: TFrmNewTown
   end
   object btnSave: TButton
     Left = 118
-    Top = 51
+    Top = 139
     Width = 75
     Height = 25
     Caption = 'Speichern'
     ModalResult = 1
     TabOrder = 2
+  end
+  object txtGrain: TLabeledEdit
+    Left = 16
+    Top = 64
+    Width = 57
+    Height = 21
+    EditLabel.Width = 25
+    EditLabel.Height = 13
+    EditLabel.Caption = 'Grain'
+    TabOrder = 3
+    Text = '0'
+  end
+  object txtBeer: TLabeledEdit
+    Left = 16
+    Top = 104
+    Width = 57
+    Height = 21
+    EditLabel.Width = 22
+    EditLabel.Height = 13
+    EditLabel.Caption = 'Beer'
+    TabOrder = 4
+    Text = '0'
   end
 end

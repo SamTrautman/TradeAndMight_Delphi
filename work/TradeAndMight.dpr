@@ -14,7 +14,8 @@ uses
   UTownTerrainObject in '..\src\TerrainObject\UTownTerrainObject.pas',
   UFrmNewTown in '..\user\UFrmNewTown.pas' {FrmNewTown},
   UBaseSprite in '..\src\Sprite\UBaseSprite.pas',
-  USeaTrader in '..\src\Sprite\USeaTrader.pas';
+  USeaTrader in '..\src\Sprite\USeaTrader.pas',
+  UStock in '..\src\UStock.pas';
 
 {$R *.res}
 

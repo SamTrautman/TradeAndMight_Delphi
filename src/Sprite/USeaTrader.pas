@@ -3,21 +3,27 @@ unit USeaTrader;
 interface
 
 uses
-  UBaseSprite;
+  UBaseSprite, UStock;
 
 type
   TSeaTrader = class(TBaseSprite)
   private
-    procedure ChoseNewTarget;
+    FCurrentStock: TStock;
+  private
+    procedure ChooseNewTarget;
+    procedure Trade;
   public
     procedure DoAction; override;
+  public
+    constructor Create;
+    destructor Destroy; override;
   end;
 
 implementation
 
 { TSeaTrader }
 
-procedure TSeaTrader.ChoseNewTarget;
+procedure TSeaTrader.ChooseNewTarget;
 var
   l_TownIndex: Integer;
 begin
@@ -29,11 +35,22 @@ begin
   FTargetPosY := FTowns.Items[l_TownIndex].PosY;
 end;
 
+constructor TSeaTrader.Create;
+begin
+  FCurrentStock := TStock.Create(10);
+end;
+
+destructor TSeaTrader.Destroy;
+begin
+  FCurrentStock.Free;
+  inherited;
+end;
+
 procedure TSeaTrader.DoAction;
 begin
   inherited;
   if (CurrentPosX = TargetPosX) AND (CurrentPosY = TargetPosY) then
-    ChoseNewTarget;
+    Trade;
 
   if TargetPosX > CurrentPosX then
     FCurrentPosX := FCurrentPosX + 1
@@ -43,6 +60,14 @@ begin
     FCurrentPosY := CurrentPosY + 1
   else if TargetPosY < CurrentPosY then
     FCurrentPosY := FCurrentPosY - 1;
+
+  if (CurrentPosX = TargetPosX) AND (CurrentPosY = TargetPosY) then
+    ChooseNewTarget;
+end;
+
+procedure TSeaTrader.Trade;
+begin
+  //
 end;
 
 end.

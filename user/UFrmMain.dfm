@@ -56,6 +56,18 @@ object FrmMain: TFrmMain
       inherited tsCreateWorld: TTabSheet
         ExplicitHeight = 583
       end
+      inherited tsView: TTabSheet
+        ExplicitLeft = 24
+        ExplicitTop = 4
+        ExplicitWidth = 181
+        ExplicitHeight = 544
+      end
+      inherited tsTesting: TTabSheet
+        ExplicitLeft = 24
+        ExplicitTop = 4
+        ExplicitWidth = 181
+        ExplicitHeight = 583
+      end
     end
   end
 end

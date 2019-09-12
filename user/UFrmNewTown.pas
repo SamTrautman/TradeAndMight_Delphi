@@ -11,6 +11,8 @@ type
     txtTownName: TLabeledEdit;
     btnBack: TButton;
     btnSave: TButton;
+    txtGrain: TLabeledEdit;
+    txtBeer: TLabeledEdit;
   private
     { Private-Deklarationen }
   public
