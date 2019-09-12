@@ -28,6 +28,10 @@ type
     OpenDialogMap: TOpenDialog;
     tsTesting: TTabSheet;
     btnRunTurn: TButton;
+    btnStart: TButton;
+    btnStop: TButton;
+    AutoTurn: TTimer;
+    txtInterval: TLabeledEdit;
     procedure btnCreateWorldClick(Sender: TObject);
     procedure ImgWorldMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -35,6 +39,9 @@ type
     procedure btnSaveWorldClick(Sender: TObject);
     procedure btnLoadWorldClick(Sender: TObject);
     procedure btnRunTurnClick(Sender: TObject);
+    procedure AutoTurnTimer(Sender: TObject);
+    procedure btnStartClick(Sender: TObject);
+    procedure btnStopClick(Sender: TObject);
   private
     FSpriteSize: Integer;
   private
@@ -51,8 +58,14 @@ implementation
 {$R *.dfm}
 
 uses
-  System.JSON,
+  System.JSON, System.Types,
   UWorld, UBaseTerrainTile, UBaseSprite, UTownTerrainObject, UGlobal, UFrmNewTown;
+
+procedure TFrameWorldBuilder.AutoTurnTimer(Sender: TObject);
+begin
+  TheWorld.CalcTurn;
+  ReRenderWorld;
+end;
 
 procedure TFrameWorldBuilder.btnCreateWorldClick(Sender: TObject);
 begin
@@ -215,6 +228,17 @@ begin
       l_ExportJSON.Free;
     end;
   end;
+end;
+
+procedure TFrameWorldBuilder.btnStartClick(Sender: TObject);
+begin
+  AutoTurn.Interval := StrToInt(txtInterval.Text);
+  AutoTurn.Enabled := True;
+end;
+
+procedure TFrameWorldBuilder.btnStopClick(Sender: TObject);
+begin
+  AutoTurn.Enabled := False;
 end;
 
 constructor TFrameWorldBuilder.Create(AOwner: TComponent);

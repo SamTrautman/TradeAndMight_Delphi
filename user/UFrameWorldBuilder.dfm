@@ -149,6 +149,35 @@ object FrameWorldBuilder: TFrameWorldBuilder
         TabOrder = 0
         OnClick = btnRunTurnClick
       end
+      object btnStart: TButton
+        Left = 3
+        Top = 34
+        Width = 166
+        Height = 25
+        Caption = 'Start'
+        TabOrder = 1
+        OnClick = btnStartClick
+      end
+      object btnStop: TButton
+        Left = 3
+        Top = 65
+        Width = 166
+        Height = 25
+        Caption = 'Stop'
+        TabOrder = 2
+        OnClick = btnStopClick
+      end
+      object txtInterval: TLabeledEdit
+        Left = 3
+        Top = 112
+        Width = 166
+        Height = 21
+        EditLabel.Width = 38
+        EditLabel.Height = 13
+        EditLabel.Caption = 'Interval'
+        TabOrder = 3
+        Text = '1000'
+      end
     end
   end
   object SaveDialogMap: TSaveDialog
@@ -158,5 +187,11 @@ object FrameWorldBuilder: TFrameWorldBuilder
   object OpenDialogMap: TOpenDialog
     Left = 128
     Top = 500
+  end
+  object AutoTurn: TTimer
+    Enabled = False
+    OnTimer = AutoTurnTimer
+    Left = 96
+    Top = 148
   end
 end

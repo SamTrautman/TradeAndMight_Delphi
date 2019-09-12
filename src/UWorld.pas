@@ -110,9 +110,9 @@ begin
   BuildTerrainArray;
 
   //TESTING
-  FSprites.Add(TSeaTrader.Create(0,0));
-  FSprites.Add(TSeaTrader.Create(0,0));
-  FSprites.Add(TSeaTrader.Create(0,0));
+  FSprites.Add(TSeaTrader.Create(0,0, FTowns));
+  FSprites.Add(TSeaTrader.Create(0,0, FTowns));
+  FSprites.Add(TSeaTrader.Create(0,0, FTowns));
 end;
 
 destructor TWorld.Destroy;

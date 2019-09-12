@@ -18,11 +18,15 @@ implementation
 { TSeaTrader }
 
 procedure TSeaTrader.ChoseNewTarget;
+var
+  l_TownIndex: Integer;
 begin
   Randomize;
 
-  FTargetPosX := Random(25);
-  FTargetPosY := Random(25);
+  l_TownIndex := Random(FTowns.Count -1);
+
+  FTargetPosX := FTowns.Items[l_TownIndex].PosX;
+  FTargetPosY := FTowns.Items[l_TownIndex].PosY;
 end;
 
 procedure TSeaTrader.DoAction;
