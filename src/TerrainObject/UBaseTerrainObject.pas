@@ -11,7 +11,7 @@ type
     property PosX: Integer read FPosX write FPosX;
     property PosY: Integer read FPosY write FPosY;
   public
-    constructor Create(APosX, APosY: Integer);
+    constructor Create(APosX, APosY: Integer); virtual;
   end;
 
 implementation

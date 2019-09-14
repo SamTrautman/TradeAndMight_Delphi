@@ -17,7 +17,7 @@ type
   public
     procedure DoAction; virtual; abstract;
   public
-    constructor Create(APosX, APosY: Integer; ATownList: TList<TTownTerrainObject>);
+    constructor Create(APosX, APosY: Integer; ATownList: TList<TTownTerrainObject>); virtual;
   public
     property Towns: TList<TTownTerrainObject> read FTowns write FTowns;
     property CurrentPosX: Integer read FCurrentPosX;

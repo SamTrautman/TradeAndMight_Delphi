@@ -13,7 +13,7 @@ type
     FProduction: TStock;
     FConsumption: TStock;
   public
-    constructor Create;
+    constructor Create(APosX: Integer; APosY: Integer); override;
     destructor Destroy; override;
   public
     procedure SetProduction(AStockItem: TStockItem; AAmount: Integer);
@@ -29,8 +29,9 @@ implementation
 
 { TTownTerrainObject }
 
-constructor TTownTerrainObject.Create;
+constructor TTownTerrainObject.Create(APosX, APosY: Integer);
 begin
+  inherited;
   FProduction := TStock.Create(1000);
   FConsumption := TStock.Create(1000);
   FCurrentStock := TStock.Create(1000);

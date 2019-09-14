@@ -3,6 +3,8 @@ unit USeaTrader;
 interface
 
 uses
+  System.Generics.Collections,
+  UTownTerrainObject,
   UBaseSprite, UStock;
 
 type
@@ -15,8 +17,8 @@ type
   public
     procedure DoAction; override;
   public
-    constructor Create;
     destructor Destroy; override;
+    constructor Create(APosX, APosY: Integer; ATownList: TList<UTownTerrainObject.TTownTerrainObject>); override;
   end;
 
 implementation
@@ -35,8 +37,10 @@ begin
   FTargetPosY := FTowns.Items[l_TownIndex].PosY;
 end;
 
-constructor TSeaTrader.Create;
+constructor TSeaTrader.Create(APosX, APosY: Integer;
+  ATownList: TList<UTownTerrainObject.TTownTerrainObject>);
 begin
+  inherited;
   FCurrentStock := TStock.Create(10);
 end;
 
