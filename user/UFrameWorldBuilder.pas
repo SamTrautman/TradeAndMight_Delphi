@@ -32,6 +32,13 @@ type
     btnStop: TButton;
     AutoTurn: TTimer;
     txtInterval: TLabeledEdit;
+    tsPathFinding: TTabSheet;
+    txtStartX: TEdit;
+    txtStartY: TEdit;
+    txtGoalX: TEdit;
+    txtGoalY: TEdit;
+    memPathResult: TMemo;
+    btnFindPath: TButton;
     procedure btnCreateWorldClick(Sender: TObject);
     procedure ImgWorldMouseDown(Sender: TObject; Button: TMouseButton;
       Shift: TShiftState; X, Y: Integer);
@@ -42,12 +49,14 @@ type
     procedure AutoTurnTimer(Sender: TObject);
     procedure btnStartClick(Sender: TObject);
     procedure btnStopClick(Sender: TObject);
+    procedure btnFindPathClick(Sender: TObject);
   private
     FSpriteSize: Integer;
   private
     procedure DrawTerrainTile(X, Y: Integer);
     procedure DrawTown(X, Y: Integer);
     procedure DrawSprite(X, Y: Integer);
+    procedure DrawPath(X, Y: Integer);
     procedure ReRenderWorld;
   public
     constructor Create(AOwner: TComponent); override;
@@ -58,8 +67,9 @@ implementation
 {$R *.dfm}
 
 uses
-  System.JSON, System.Types,
-  UWorld, UBaseTerrainTile, UBaseSprite, UTownTerrainObject, UGlobal, UFrmNewTown;
+  System.JSON, System.Types, System.Generics.Collections,
+  UWorld, UBaseTerrainTile, UBaseSprite, UTownTerrainObject, UGlobal, UFrmNewTown,
+  UPathFinder;
 
 procedure TFrameWorldBuilder.AutoTurnTimer(Sender: TObject);
 begin
@@ -71,6 +81,35 @@ procedure TFrameWorldBuilder.btnCreateWorldClick(Sender: TObject);
 begin
   TheWorld.CreateNewWorld(StrToInt(txtSizeX.Text), StrToInt(txtSizeY.Text));
   ReRenderWorld;
+end;
+
+procedure TFrameWorldBuilder.btnFindPathClick(Sender: TObject);
+var
+  l_Path: TList<TPoint>;
+  l_PathFinder: TPathFinder;
+  l_Start: TPoint;
+  l_Goal: TPoint;
+  l_Step: TPoint;
+begin
+  l_PathFinder := TPathFinder.Create;
+  try
+    l_Start := TPoint.Create(StrToInt(txtStartX.Text), StrToInt(txtStartY.Text));
+    l_Goal := TPoint.Create(StrToInt(txtGoalX.Text), StrToInt(txtGoalY.Text));
+
+    l_Path := l_PathFinder.FindPath(l_Start, l_Goal);
+
+    memPathResult.Lines.Clear;
+
+    ReRenderWorld;
+
+    for l_Step in l_Path do
+    begin
+      DrawPath(l_Step.X, l_Step.Y);
+      memPathResult.Lines.Add(IntToStr(l_Step.X) + ';' + IntToStr(l_Step.Y));
+    end;
+  finally
+    l_PathFinder.Free;
+  end;
 end;
 
 procedure TFrameWorldBuilder.btnLoadWorldClick(Sender: TObject);
@@ -247,6 +286,28 @@ begin
   FSpriteSize := 16;
 
   pcSidePanel.ActivePage := tsCreateWorld;
+end;
+
+procedure TFrameWorldBuilder.DrawPath(X, Y: Integer);
+var
+  l_Bitmap: TBitmap;
+begin
+  l_Bitmap := TBitmap.Create;
+  try
+    l_Bitmap.Canvas.Brush.Color := clFuchsia;
+    l_Bitmap.TransparentColor := clFuchsia;
+    l_Bitmap.Transparent := True;
+
+    l_Bitmap.SetSize(FSpriteSize, FSpriteSize);
+
+    l_Bitmap.Canvas.Brush.Color := clLime;
+    l_Bitmap.Canvas.Pen.Color := clBtnFace;
+    l_Bitmap.Canvas.Ellipse(0, 0, FSpriteSize, FSpriteSize);
+
+    ImgWorld.Canvas.Draw(X * FSpriteSize, Y * FSpriteSize,l_Bitmap);
+  finally
+    l_Bitmap.Free;
+  end;
 end;
 
 procedure TFrameWorldBuilder.DrawSprite(X, Y: Integer);

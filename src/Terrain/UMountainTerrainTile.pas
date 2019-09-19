@@ -24,7 +24,7 @@ end;
 
 function TMountainTerrainTile.GetCanPassBySea: Boolean;
 begin
-  Result := True;
+  Result := False;
 end;
 
 function TMountainTerrainTile.GetTerrainType: TTerrainType;

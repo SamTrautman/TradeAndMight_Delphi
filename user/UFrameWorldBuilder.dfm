@@ -27,7 +27,7 @@ object FrameWorldBuilder: TFrameWorldBuilder
     Top = 0
     Width = 209
     Height = 552
-    ActivePage = tsTesting
+    ActivePage = tsPathFinding
     Align = alLeft
     MultiLine = True
     TabOrder = 0
@@ -177,6 +177,58 @@ object FrameWorldBuilder: TFrameWorldBuilder
         EditLabel.Caption = 'Interval'
         TabOrder = 3
         Text = '1000'
+      end
+    end
+    object tsPathFinding: TTabSheet
+      Caption = 'PathFinding'
+      ImageIndex = 5
+      object txtStartX: TEdit
+        Left = 3
+        Top = 3
+        Width = 38
+        Height = 21
+        TabOrder = 0
+        Text = '0'
+      end
+      object txtStartY: TEdit
+        Left = 47
+        Top = 3
+        Width = 44
+        Height = 21
+        TabOrder = 1
+        Text = '0'
+      end
+      object txtGoalX: TEdit
+        Left = 3
+        Top = 30
+        Width = 38
+        Height = 21
+        TabOrder = 2
+        Text = '24'
+      end
+      object txtGoalY: TEdit
+        Left = 47
+        Top = 30
+        Width = 44
+        Height = 21
+        TabOrder = 3
+        Text = '24'
+      end
+      object memPathResult: TMemo
+        Left = 3
+        Top = 88
+        Width = 179
+        Height = 453
+        TabOrder = 4
+      end
+      object btnFindPath: TButton
+        Left = 3
+        Top = 57
+        Width = 179
+        Height = 25
+        Caption = 'Find Path'
+        TabOrder = 5
+        OnClick = btnFindPathClick
       end
     end
   end

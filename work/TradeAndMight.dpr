@@ -15,7 +15,8 @@ uses
   UFrmNewTown in '..\user\UFrmNewTown.pas' {FrmNewTown},
   UBaseSprite in '..\src\Sprite\UBaseSprite.pas',
   USeaTrader in '..\src\Sprite\USeaTrader.pas',
-  UStock in '..\src\UStock.pas';
+  UStock in '..\src\UStock.pas',
+  UPathFinder in '..\src\UPathFinder.pas';
 
 {$R *.res}
 
